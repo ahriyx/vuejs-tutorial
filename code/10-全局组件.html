@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>vue - 注册全局组件</title>
+</head>
+
+<body>
+  <!-- 
+    1. 全局注册组件
+      注意：一定要在 Vue 实例创建之前才行
+      template 中可以指定 HTML 模板字符串
+      但是一定要包裹一个根元素
+      template 也可以放到 script 标签中
+        1. 将 script 标签的 type 改为 text/x-template
+           然后给一个 ID
+        2. 在组件的 template 中指定该 script 标签的 id
+           例如 template: '#tpl'
+    2. 在被 Vue 实例解析的 DOM 模板中使用组件
+   -->
+  <div id="app">
+    <my-component></my-component>
+    <my-component2></my-component2>
+  </div>
+  <div id="app2">
+    <my-component></my-component>
+  </div>
+  <script src="../node_modules/vue/dist/vue.js"></script>
+  <script type="text/x-template" id="tpl">
+    <div>
+      <h1>标题</h1>
+      <p>内容</p>
+    </div>
+  </script>
+  <script>
+    // 组件说白了就是 HTML 自定义元素
+    // 将一堆的 HTML 封装到一个自定义元素中
+    Vue.component('my-component', {
+      template: `
+        <div>
+          <div>我是全局注册的自定义组件</div>
+          <p>这是一个段落</p>
+        </div>
+        `
+    })
+
+    Vue.component('my-component2', {
+      template: '#tpl'
+    })
+
+    new Vue({
+      el: '#app',
+      data: {
+      },
+    })
+
+    new Vue({
+      el: '#app2',
+    })
+  </script>
+</body>
+
+</html>

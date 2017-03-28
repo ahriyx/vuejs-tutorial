@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>vue - 组件通信-props</title>
+  <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.css">
+</head>
+
+<body>
+  <div id="app">
+    <!-- <my-panel title="组件标题1"></my-panel>
+    <my-panel title="组件标题2"></my-panel>
+    <my-panel title="123"></my-panel> -->
+    <!-- 动态绑定父组件或者实例的数据 -->
+    <!-- <my-panel v-bind:title="title"></my-panel>
+    <my-panel :title="title"></my-panel> -->
+    <hr>
+    <hr>
+    <hr>
+    <hr>
+    <my-panel :panel="item" v-for="item in panels"></my-panel>
+  </div>
+  <script src="../node_modules/vue/dist/vue.js"></script>
+  <script type="text/x-template" id="my-panel">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">{{ panel.title }}</h3>
+      </div>
+      <div class="panel-body">
+        Panel content
+      </div>
+    </div>
+  </script>
+  <script>
+    /**
+     * 组件通信之：动态的静态数据和动态的绑定数据
+     * 如果是动态的静态数据，则直接在 使用组件元素的标签上加自定义属性：title="xxx"
+     * 然后在组件的 props 选项数组中加入一项：title
+     *
+     * 如何绑定父组件的 data 数据到组件中，则需要使用 v-bind 即可
+     */
+
+    Vue.component('my-panel', {
+      // 组件的选项 props ，是一个数组
+      // 里面写：你使用组件的时候的 HTML 元素中的属性名，然后就可以直接在组件模板中使用 props 中的数据了，同样的，也可以直接通过 this 访问到 props 中的数据
+      props: ['title', 'panel'],
+      template: '#my-panel'
+    })
+    new Vue({
+      el: '#app',
+      data: {
+        title: '实例的 title',
+        panels: [{
+          title: '标题1'
+        }, {
+          title: '标题2'
+        }, {
+          title: '标题3'
+        }, {
+          title: '标题4'
+        }, ]
+      },
+    })
+
+  </script>
+</body>
+
+</html>
+

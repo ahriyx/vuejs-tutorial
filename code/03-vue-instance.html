@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>vue - instance</title>
+</head>
+
+<body>
+  <div id="app">
+    {{ message }}
+    <p>{{ title }}</p>
+    <input type="text" v-model="user.name">
+    <p>{{ user.name }}</p>
+    <p>{{ user.age }}</p>
+    <p>{{ user.gender }}</p>
+    <button v-on:click="addGender">添加 gender</button>
+    <button v-on:click="removeGender">删除 gender</button>
+  </div>
+  <div id="app2">
+    {{ message }}
+  </div>
+  <script src="../node_modules/vue/dist/vue.js"></script>
+  <script>
+    // 这个应用程序，管理 #app 节点及内部所有节点中自己能识别的模板语法等 API
+    // 实例选项的 data 用来初始化数据模型
+    // 思想：根据视图抽象数据模型
+    const vm1 = new Vue({
+      el: '#app',
+      data: {
+        message: 'hello',
+        title: '北京天安门',
+        user: {
+          name: 'Jack',
+          age: 18
+        }
+      },
+      methods: {
+        addGender () {
+          // this.user.gender = '男'
+          // Vue.set(this.user, 'gender', '男')
+          this.$set(this.user, 'gender', '娜娜')
+        },
+
+        removeGender () {
+          // delete this.user.gender
+          // Vue.delete(this.user, 'gender')
+          this.$delete(this.user, 'gender')
+        }
+      }
+    })
+
+    // 所有必须提前初始化好，不能随后去添加
+    // vm1.$data.foo = 'bar'
+
+    const vm2 = new Vue({
+      el: '#app2',
+      data: {
+        message: 'world'
+      }
+    })
+
+  </script>
+</body>
+
+</html>
+

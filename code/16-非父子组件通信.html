@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>vue - 非父子组件通信</title>
+</head>
+
+<body>
+  <div id="app">
+    <child1></child1>
+    <child2></child2>
+  </div>
+  <script src="../node_modules/vue/dist/vue.js"></script>
+  <script>
+    // 1. 创建一个空的 Vue 实例
+    // 2. 在要通信的两个组件之间使用 bus 的 $on 和 $emit 这两个 API 发布和订阅事件
+    //    $on('事件名', callback) 用来订阅自定义
+    //    $emit('事件名', [data]) 用来发布事件，可选参数 data 用来发送数据
+    const bus = new Vue()
+    Vue.component('child1', {
+      template: `
+        <div>
+          <input type="text" v-model="message" />
+          <button @click="sendMessage">发送数据给 child2 组件</button>
+          <p>child2 组件中的 button 被点击了：{{ total }}</p>
+        </div>
+      `,
+      data() {
+        const _this = this
+        bus.$on('increment', function () {
+          _this.total += 1
+        })
+        return {
+          message: 'child1 message',
+          total: 0
+        }
+      },
+      methods: {
+        sendMessage() {
+          bus.$emit('sendMessage', this.message)
+        }
+      }
+    })
+
+    const child2 = Vue.component('child2', {
+      template: `
+        <div>
+          <p>{{ message }}</p>
+          <button @click="increment">点击</button>
+        </div>
+      `,
+      data() {
+        const _this = this
+        bus.$on('sendMessage', function (message) {
+          console.log('有 bus 的 $on 定于的 sendMessage 事件收到信号了：', message)
+          _this.message = message
+        })
+        return {
+          message: 'child2 message'
+        }
+      },
+      methods : {
+        increment () {
+          bus.$emit('increment')
+        }
+      }
+    })
+
+    // bus.$on('sendMessage', function (message) {
+    //   console.log('有 bus 的 $on 定于的 sendMessage 事件收到信号了：',message)
+    // })
+
+    new Vue({
+      el: '#app',
+      data: {},
+    })
+
+  </script>
+</body>
+
+</html>
+

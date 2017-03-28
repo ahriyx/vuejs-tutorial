@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>vue - 组件的slot</title>
+  <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.css">
+</head>
+
+<body>
+  <div id="app">
+    <my-panel title="面板1">
+      <div>这是组件面板1的内容体 {{ message }}</div>
+    </my-panel>
+    <my-panel title="面板2">
+      <div>插入面板2 的数据</div>
+    </my-panel>
+    <my-panel title="面板3"></my-panel>
+  </div>
+  <script src="../node_modules/vue/dist/vue.js"></script>
+  <script type="text/x-template" id="my-panel">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">{{ title }}</h3>
+      </div>
+      <div class="panel-body">
+        <slot>
+          这是默认的插槽数据
+        </slot>
+      </div>
+    </div>
+  </script>
+  <script>
+    Vue.component('my-panel', {
+      props: ['title'],
+      template: '#my-panel',
+      data () {
+        return {
+          message: '组件内的 Message'
+        }
+      }
+    })
+
+    new Vue({
+      el: '#app',
+      data : {
+        message: 'vue 实例的 Message'
+      }
+    })
+
+  </script>
+</body>
+
+</html>
+

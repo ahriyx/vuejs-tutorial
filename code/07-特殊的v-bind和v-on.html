@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>vue - v-bind和v-on</title>
+</head>
+
+<body>
+  <div id="app">
+    <form v-on:submit.prevent="submit" action="">
+      <input type="text" name="username">
+      <input type="submit" value="点击登陆">
+    </form>
+  </div>
+  <script src="../node_modules/vue/dist/vue.js"></script>
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+      },
+      methods: {
+        submit (e) {
+          // e.preventDefault()
+          console.log('表单提交了')
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>

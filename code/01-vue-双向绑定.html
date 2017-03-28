@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>vue - 双向绑定</title>
+</head>
+
+<body>
+  <div id="app">
+    <input type="text" v-model="name">
+    <p>hello {{ name }}</p>
+  </div>
+  <script src="../node_modules/vue/dist/vue.js"></script>
+  <script>
+    // 在视图中用到的模型数据，一定要初始化，否则直接报错
+    new Vue({
+      el: '#app',
+      data: {
+        name: 'Jack'
+      }
+    })
+  </script>
+</body>
+
+</html>
+

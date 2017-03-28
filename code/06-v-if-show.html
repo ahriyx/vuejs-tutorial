@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>vue - v-if-show</title>
+</head>
+
+<body>
+  <div id="app">
+    <input type="checkbox" v-model="seen">
+    <p v-if="seen">
+      我是 v-if 出来的
+    </p>
+    <!-- v-else 一定要紧跟在 v-if 作用的节点之后 -->
+    <!-- <p></p> -->
+    <p v-else>
+      我是 v-if 的 else 块
+    </p>
+    <p v-show="seen">
+      我是 v-show 出来的
+    </p>
+    <div v-pre>
+      <p>{{ 'hello world' }}</p>
+    </div>
+    <div v-pre>
+      <p>大段文本，静态内容</p>
+      <p>大段文本，静态内容</p>
+      <p>大段文本，静态内容</p>
+      <p>大段文本，静态内容</p>
+      <p>大段文本，静态内容</p>
+      <p>大段文本，静态内容</p>
+      <p>大段文本，静态内容</p>
+    </div>
+    <div>
+      <p>{{ 'hello world' }}</p>
+    </div>
+  </div>
+  <script src="../node_modules/vue/dist/vue.js"></script>
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+        seen: true
+      },
+    })
+  </script>
+</body>
+
+</html>

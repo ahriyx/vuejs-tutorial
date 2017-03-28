@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>vue - v-bind-class-style</title>
+  <style>
+    .active {
+      color: red;
+    }
+
+    .bgc {
+      background-color: green;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <input type="checkbox" v-model="isActive">
+    <p :class="{ active: isActive }">上海还会下雨吗？</p>
+    <p :class="classObject">上海还会下雨吗？</p>
+  </div>
+  <script src="../node_modules/vue/dist/vue.js"></script>
+  <script>
+    const vm = new Vue({
+      el: '#app',
+      data: {
+        isActive: true,
+        classObject: {
+          active: true
+        }
+      },
+    })
+  </script>
+</body>
+
+</html>

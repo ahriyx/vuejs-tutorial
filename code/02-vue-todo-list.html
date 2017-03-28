@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>vue - TodoList</title>
+  <style>
+    .completed {
+      text-decoration: line-through;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <input type="text" v-model="todoText">
+    <button v-on:click="add">添加任务</button>
+    <ul>
+      <li v-for="(todo, index) in todos">
+        <input type="checkbox" v-model="todo.completed">
+        <span v-bind:class="{ completed: todo.completed }">{{ todo.title }}</span>
+        <button @click="remove(index)">X</button>
+      </li>
+    </ul>
+  </div>
+  <script src="../node_modules/vue/dist/vue.js"></script>
+  <script>
+    new Vue({
+      // el: '#app',
+      data: {
+        todoText: '',
+        todos: [{
+          title: '吃饭',
+          completed: false
+        }, {
+          title: '睡觉',
+          completed: false
+        }, {
+          title: '打豆豆',
+          completed: false
+        }, {
+          title: '约会',
+          completed: true
+        }, {
+          title: '写代码',
+          completed: false
+        }, ]
+      },
+      methods: {
+        add: function () {
+          if (this.todoText.trim() === '') {
+            return
+          }
+          this.todos.push({
+            title: this.todoText,
+            completed: false,
+          })
+          this.todoText = ''
+        },
+        remove: function (index) {
+          this.todos.splice(index, 1)
+        }
+      }
+    }).$mount('#app')
+
+  </script>
+</body>
+
+</html>
+

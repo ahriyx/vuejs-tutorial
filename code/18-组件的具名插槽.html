@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>vue - 组件的具名插槽</title>
+</head>
+
+<body>
+  <div id="app">
+    <app>
+      <h1 slot="navbar">我是头部导航栏</h1>
+      <ul slot="sidebar">
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Login</a></li>
+        <li><a href="#">Register</a></li>
+      </ul>
+      <p slot="footer">我是底部内容</p>
+      <div slot="main">
+        <h1>我是中间内容体</h1>
+        <p>内容体中的段落</p>
+      </div>
+    </app>
+  </div>
+
+  <script src="../node_modules/vue/dist/vue.js"></script>
+  <script>
+    Vue.component('app', {
+      template: `
+        <div>
+  <slot name="navbar"></slot>
+        <div class="container">
+          <div class="row">
+            <div class="col-md-3">
+              <slot name="sidebar"></slot>
+            </div>
+            <div class="col-md-9">
+              <slot name="main"></slot>
+            </div>
+            <footer>
+              <slot name="footer"></slot>
+            </footer>
+          </div>
+        </div>
+        </div>
+`
+    })
+
+    new Vue({
+      el: '#app',
+      data: {
+      },
+    })
+  </script>
+</body>
+
+</html>

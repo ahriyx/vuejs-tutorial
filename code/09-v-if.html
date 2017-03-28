@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>vue - v-if</title>
+</head>
+
+<body>
+  <div id="app">
+    <template v-if="seen">
+      <h1>哈哈</h1>
+      <p>aaa</p>
+      <a href="http://www.baidu.com">点我</a>
+    </template>
+  </div>
+  <script src="../node_modules/vue/dist/vue.js"></script>
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+        seen: true
+      },
+    })
+
+  </script>
+</body>
+
+</html>
+

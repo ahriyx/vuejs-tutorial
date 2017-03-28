@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>vue - 组件通信-父子组件通信</title>
+</head>
+
+<body>
+  <div id="app">
+    <h1>{{ totalClick }}</h1>
+    <child :increment-total-click="incrementTotalClick"></child>
+    <child v-on:click.native="hello" v-on:click="incrementTotalClick"></child>
+    <child v-on:click="incrementTotalClick"></child>
+    <child v-on:sendMessage="reciveMessage(data)"></child>
+  </div>
+  <script src="../node_modules/vue/dist/vue.js"></script>
+  <script>
+    Vue.component('child', {
+      props: ['incrementTotalClick'],
+      template: `
+        <div>
+          <p>{{ count }}</p>
+          <input type="text" v-model="message" />
+          <button @click="incrementCount">点击 + 1 </button>
+        </div>
+      `,
+      data () {
+        return {
+          count: 0,
+          message: 'hello child'
+        }
+      },
+      methods: {
+        incrementCount () {
+          // this.incrementTotalClick()
+
+          // 事件发布，如果在父组件中使用组件标签的时候，通过 v-on:a 订阅了该事件，则父组件的事件处理就会执行
+          this.$emit('click')
+
+          // 默认无法通过 $emit 发射事件的时候，发送数据
+          // 如果需要这么做，Vue 提供了另一种方式
+          // this.$emit('sendMessage', this.message)
+          this.count += 1
+        }
+      }
+    })
+    new Vue({
+      el: '#app',
+      data: {
+        totalClick: 0
+      },
+      methods: {
+        incrementTotalClick () {
+          this.totalClick += 1
+        },
+        hello () {
+          window.alert('hello child')
+        },
+        reciveMessage (data) {
+          console.log(data)
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>

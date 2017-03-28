@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>vue - 动态切换组件</title>
+</head>
+
+<body>
+  <div id="app">
+    <a href="" @click.prevent="currentView = 'register'">点击注册</a>
+    <a href="" @click.prevent="currentView = 'login'">点击登陆</a>
+    <div style="border: 1px solid red;">
+      <keep-alive>
+        <component :is="currentView">
+          <!-- 组件在 vm.currentview 变化时改变！ -->
+        </component>
+      </keep-alive>
+    </div>
+  </div>
+  <script src="../node_modules/vue/dist/vue.js"></script>
+  <script>
+    Vue.component('login', {
+      template: `
+        <form action="">
+          <div>
+            <label for="">用户名</label>
+            <input type="text" />
+          </div>
+          <div>
+            <label for="">密码</label>
+            <input type="password" />
+          </div>
+          <div>
+            <input type="submit" value="点击登陆" />
+          </div>
+        </form>
+      `
+    })
+
+    Vue.component('register', {
+      template: `
+        <form action="">
+          <div>
+            <label for="">用户名</label>
+            <input type="text" />
+          </div>
+          <div>
+            <label for="">密码</label>
+            <input type="password" />
+          </div>
+          <div>
+            <label for="">确认密码</label>
+            <input type="password" />
+          </div>
+          <div>
+            <input type="submit" value="点击注册" />
+          </div>
+        </form>
+      `
+    })
+
+    new Vue({
+      el: '#app',
+      data: {
+        currentView: 'login'
+      },
+    })
+
+  </script>
+</body>
+
+</html>
+

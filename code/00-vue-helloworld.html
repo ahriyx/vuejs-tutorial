@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>vue - HelloWorld</title>
+</head>
+<body>
+  <div id="app">
+    hello {{ foo }}
+  </div>
+  <script src="../node_modules/vue/dist/vue.js"></script>
+  <script>
+    // 该实例就是你的 model
+    var vm = new Vue({
+      // data 就是你的 $scope
+      data: {
+        foo: 'world'
+      }
+    })
+
+    // 这里就相当于 ng-app = "模块名"
+    // 不能挂载到 body 和 html 元素上
+    vm.$mount('#app')
+  </script>
+</body>
+</html>

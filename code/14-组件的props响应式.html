@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>vue - 组件的props影响的范围</title>
+</head>
+
+<body>
+  <div id="app">
+    <p>{{ message }}</p>
+    <p>{{ user.name }}</p>
+    <p>{{ user.todos[0].title }}</p>
+    <input v-model="message">
+    <child :message="message" :user="user"></child>
+  </div>
+  <script src="../node_modules/vue/dist/vue.js"></script>
+  <script>
+    Vue.component('child', {
+      // props 中建议只传递数据，不要传递函数
+      // 如果有函数，一定要定义成组件自己的
+      props: ['message', 'user'],
+      template: `
+        <div>
+          <div>
+            <p>{{ message }}</p>
+          <button @click="changeParentMessage">点击修改 props message</button>
+          </div>
+          <div>
+            <p>{{ childMessage }}</p>
+            <button @click="changeChildMessage">点击修改自己的 message</button>
+          </div>
+          <div>
+            {{ rversedMessage }}
+          </div>
+          <div>
+            <input type="text" v-model="user.name" />
+            <p>{{ user.name }}</p>
+          </div>
+          <div>
+            <input type="text" v-model="childUser.name" />
+            <p>{{ childUser.name }}</p>
+          </div>
+          <input type="text" v-model="childUser.todos[0].title" />
+        </div>
+      `,
+      data () {
+        // const childUser = {}
+        // for(let key in this.user) {
+        //   childUser[key] = this.user[key]
+        // }
+
+        // 关于 JavaScript 深拷贝和浅拷贝 https://www.zhihu.com/question/23031215
+        const childUser = JSON.parse(JSON.stringify(this.user))
+        return {
+          // prop 作为初始值传入后，子组件想把它当作局部数据来用
+          // 这个时候父组件修改 message 不会影响子组件中的 childMessage
+          // 同时子组件中的 childMessage 的修改也不会影响父组件的 Message
+          childMessage: this.message,
+          // childUser: childUser,
+          childUser, // 在 es6 中，这种写法等价于上面的写法
+        }
+      },
+      methods: {
+        f () {
+
+        }
+      },
+      computed: {
+        // prop 作为初始值传入，由子组件处理成其它数据输出
+        // 同时是响应式的，父组件的 message 改变，子组件计算属性重新计算输出
+        rversedMessage () {
+          return this.message.split('').reverse().join('')
+        }
+      },
+      methods: {
+        changeParentMessage () {
+          console.log(this.message)
+          // 在子组件中修改 props 中的数据，只能子组件响应更新
+          // 数据的更新不会传导给父组件
+          this.message = 'child message'
+        },
+        changeChildMessage () {
+          this.childMessage = '自己的message'
+        },
+      }
+    })
+
+    new Vue({
+      el: '#app',
+      data: {
+        message: 'parent message',
+        user: {
+          name: 'Jack',
+          age: 18,
+          todos: [
+            { title: 'aaa' },
+            { title: 'bbb' },
+            { title: 'ccc' },
+          ],
+          f: function () {
+            console.log('fff')
+          }
+        }
+      },
+    })
+  </script>
+</body>
+
+</html>
