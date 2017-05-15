@@ -15,6 +15,7 @@
     "vue": "^2.2.4"
   },
   "devDependencies": {
-    "browser-sync": "^2.18.8"
+    "browser-sync": "^2.18.8",
+    "docute": "^3.4.5"
   }
 }
