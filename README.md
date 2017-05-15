@@ -1,16 +1,17 @@
-# Vue.js  Tutorial
-
----
+# vuejs tutorial
 
 ## 搭建案例演示自动刷新环境
 
-创建一个 `package.josn` 文件：
+为了方便课程案例演示，这里我们使用 [browser-sync](https://browsersync.io/) 搭建一个自动刷新环境用来提高我们的学习效率。
+下面是具体的操作步骤
+
+创建一个 `package.josn` 文件
 
 ```bash
 npm init -y
 ```
 
-安装 `browser-sync`:
+安装 `browser-sync` 到本地项目
 
 ```bash
 # npm install --save-dev browser-sync
@@ -19,16 +20,15 @@ npm init -y
 npm i -D browser-sync
 ```
 
-在 package.json 文件中加入以下内容：
+在 package.json 文件中加入以下内容
 
 ```json
 "scripts": {
-  "test": "echo \"Error: no test specified\" && exit 1",
   "start": "browser-sync start --server --directory --files \"code/*.html\""
 }
 ```
 
-打开终端，启动开发预览服务：
+打开终端，启动开发预览服务
 
 ```bash
 npm start
@@ -38,16 +38,17 @@ npm start
 
 ## 安装
 
-- Vue.js 不支持 IE8 及其以下版本，因为 Vue.js 使用了 IE8 不能模拟的 ECMAScript 5 特性
+- vue 不支持 IE8 及其以下版本，因为 vue 使用了 IE8 不能模拟的 ECMAScript 5 特性
+  + 也就是说 vue 支持所有兼容 ECMAScript 5 的浏览器
 - 每个版本的更新日志见：https://github.com/vuejs/vue/releases
 - 独立 js 文件
-  + 开发版本（未压缩）：http://vuejs.org/js/vue.js
-  + 生产版本（压缩）：http://vuejs.org/js/vue.min.js
-- CDN：https://unpkg.com/vue
+  + 开发版本（未压缩）： http://vuejs.org/js/vue.js
+  + 生产版本（压缩）： http://vuejs.org/js/vue.min.js
+- CDN: https://unpkg.com/vue
 - NPM: `npm install vue`
 - Bower: `bower install vue`
 - 兼容 AMD 规范
-  + 独立下载版本或通过 Bower 安装的版本已用 UMD 包装，因此它们可以直接用作 AMD 模块。
+  + 独立下载版本或通过 Bower 安装的版本已用 UMD 包装，因此它们可以直接用作 AMD 模块
 
 ---
 
