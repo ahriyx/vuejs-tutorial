@@ -27,7 +27,9 @@ Vue.js（读音 /vjuː/，类似于 view） 是一套构建用户界面的渐进
 
 ---
 
-## 安装
+## 起步
+
+### 安装
 
 - vue 不支持 IE8 及其以下版本
   + 因为 vue 使用了 IE8 不能模拟的 ECMAScript 5 特性
@@ -42,11 +44,157 @@ Vue.js（读音 /vjuː/，类似于 view） 是一套构建用户界面的渐进
 - AMD 模块加载器
   + 独立下载版本或通过 Bower 安装的版本已用 UMD 包装，因此它们可以直接用作 AMD 模块
 
+### 测试环境
+
+- 本地环境
+- 在线环境
+  + https://jsfiddle.net/chrisvfritz/50wL7mdz/
+
+### 声明式渲染
+
+``` html
+<div id="app">
+  <!-- 动态绑定 DOM 文本 -->
+  <p>{{ message1 }}</p>
+  <p>
+    <!-- 动态绑定 DOM 属性 -->
+    <span v-bind:title="message2">
+    鼠标悬停几秒钟查看此处动态绑定的提示信息！
+    </span>
+  </p>
+</div>
+```
+
+``` javascript
+var app = new Vue({
+  el: '#app',
+  data: {
+    message1: 'Hello Vue!',
+    message2: '页面加载于 ' + new Date()
+  }
+})
+```
+
+### 条件与循环
+
+``` html
+<div id="app-3">
+  <!-- 条件渲染 -->
+  <p v-if="seen">现在你看到我了</p>
+  <!-- 列表渲染 -->
+  <ol>
+    <li v-for="todo in todos">
+      {{ todo.text }}
+    </li>
+  </ol>
+</div>
+```
+
+``` javascript
+var app3 = new Vue({
+  el: '#app-3',
+  data: {
+    seen: true,
+    todos: [
+      { text: '学习 JavaScript' },
+      { text: '学习 Vue' },
+      { text: '整个牛项目' }
+    ]
+  }
+})
+```
+
+### 处理用户输入
+
+``` html
+<div id="app-5">
+  <p>{{ message }}</p>
+  <button v-on:click="reverseMessage">逆转消息</button>
+</div>
+```
+
+``` javascript
+var app5 = new Vue({
+  el: '#app-5',
+  data: {
+    message: 'Hello Vue.js!'
+  },
+  methods: {
+    reverseMessage: function () {
+      this.message = this.message.split('').reverse().join('')
+    }
+  }
+})
+```
+
+### 双向绑定
+
+``` html
+<div id="app-6">
+  <p>{{ message }}</p>
+  <input v-model="message">
+</div>
+```
+
+``` javascript
+var app6 = new Vue({
+  el: '#app-6',
+  data: {
+    message: 'Hello Vue!'
+  }
+})
+```
+
+### 组件化应用构建
+
+<img src="./assets/img/components.png" alt="./assets/img/components.png">
+
+``` html
+<div id="app-7">
+  <ol>
+    <!-- 现在我们为每个todo-item提供待办项对象    -->
+    <!-- 待办项对象是变量，即其内容可以是动态的 -->
+    <todo-item v-for="item in groceryList" v-bind:todo="item"></todo-item>
+  </ol>
+</div>
+```
+
+``` javascript
+Vue.component('todo-item', {
+  props: ['todo'],
+  template: '<li>{{ todo.text }}</li>'
+})
+var app7 = new Vue({
+  el: '#app-7',
+  data: {
+    groceryList: [
+      { text: '蔬菜' },
+      { text: '奶酪' },
+      { text: '随便其他什么人吃的东西' }
+    ]
+  }
+})
+```
+
+组件化模板
+
+``` html
+<div id="app">
+  <app-nav></app-nav>
+  <app-view>
+    <app-sidebar></app-sidebar>
+    <app-content></app-content>
+  </app-view>
+</div>
+```
+
 ---
 
 ## Vue 实例
 
-- 每个 Vue.js 应用都是通过构造函数 Vue 创建的
+### Vue 构造函数
+
+- 每个 Vue.js 应用都是通过构造函数 Vue 创建一个 Vue 实例启动的
 - 在实例化 Vue 时，需要传入一个选项对象，它可以包含数据、模板、挂载元素、方法、生命周期钩子等选项
   + data: 属性数据
   + computed: 计算属性
@@ -57,13 +205,15 @@ Vue.js（读音 /vjuː/，类似于 view） 是一套构建用户界面的渐进
   + ...
   + 全部选项可以在 API 文档中查看：https://cn.vuejs.org/v2/api/
 
+### 选项：data
+
 - 实例选项：data
   + https://cn.vuejs.org/v2/guide/instance.html#属性与方法
   + [选项/数据 - data](https://cn.vuejs.org/v2/api/#data)
   + [深入响应式原理](https://cn.vuejs.org/v2/guide/reactivity.html)
   + 作用：根据视图抽象数据模型
   + 注意：视图中使用的数据必须在 data 中初始化
-  + 每个 VUe 实例都会代理其 data 对象里所有的属性
+  + 每个 Vue 实例都会代理其 data 对象里所有的属性
     * 也可以通过 vue 实例的 $data 属性访问 data 中的数据
     * 建议：如果要使用 vm 读取或修改  data 中的数据，建议加上 vm.$data 去访问
   + 只有被初始代理的属性是响应式的
@@ -77,14 +227,6 @@ Vue.js（读音 /vjuː/，类似于 view） 是一套构建用户界面的渐进
     + 如果删除对象属性是响应式的：
       * `Vue.delete( object, key )`
       * 或 `vm.$delete( object, key )`
-    
-
-- 实例选项：methods
-  + https://cn.vuejs.org/v2/api/#methods
-  + 作用：为视图交互提供行为函数
-  + 可以在行为函数中通过 `this` 访问 data 中的数据成员
-  + 注意：methods 中的行为函数不要写箭头函数
-    * 因为这样会改变内部 this 的指向
 
 - 实例属性
   + https://cn.vuejs.org/v2/api/#实例属性
@@ -93,11 +235,24 @@ Vue.js（读音 /vjuː/，类似于 view） 是一套构建用户界面的渐进
   + $el
     * Vue 实例使用的根 DOM 元素
 
+### 选项：methods
+
+- 实例选项：methods
+  + https://cn.vuejs.org/v2/api/#methods
+  + 作用：为视图交互提供行为函数
+  + 可以在行为函数中通过 `this` 访问 data 中的数据成员
+  + 注意：methods 中的行为函数不要写箭头函数
+    * 因为这样会改变内部 this 的指向
+
 - 实例方法/数据
   + https://cn.vuejs.org/v2/api/#实例方法-数据
   + $watch
   + $set  Vue.set 的别名
   + $delete Vue.delete 的别名
+
+### 实例声明周期
+
+<img src="./assets/img/lifecycle.png" alt="">
 
 ---
 
@@ -112,39 +267,40 @@ Vue.js（读音 /vjuː/，类似于 view） 是一套构建用户界面的渐进
   + 注意： Mustache 语法不能在 HTML 属性中使用，应使用 `v-bind` 指令
 - 一次性插值：
   + `<span v-once>This will never change: {{ msg }}</span>`
-  + 注意：会影响该节点及内部节点所有的绑定
+  + 注意：会影响该节点及内部节点所有的数据绑定
 
 #### 纯 HTML
 
-双大括号会将数据解释为纯文本，而非 HTML 。为了输出真正的 HTML ，你需要使用 v-html 指令：
+双大括号会将数据解释为纯文本，而非 HTML 。
+为了输出真正的 HTML ，你需要使用 `v-html` 指令
 
-```html
+``` html
 <div v-html="rawHtml"></div>
 ```
 
-- 为什么不直接输出 HTML
-- 什么是 XSS 攻击：跨站脚本攻击
-  + 后天或者后后天补课
+- 被插入的内容都会被当做 HTML 进行渲染
+- 数据绑定会被忽略
+- [维基百科 - XSS 攻击](https://zh.wikipedia.org/wiki/%E8%B7%A8%E7%B6%B2%E7%AB%99%E6%8C%87%E4%BB%A4%E7%A2%BC)
 
 #### 属性
 
 **注意：Mustache 不能在 HTML 属性中使用，应使用 v-bind 指令：**
 
-```html
+``` html
 <div v-bind:id="dynamicId"></div>
 ```
 
 这对布尔值的属性也有效 —— 如果条件被求值为 false 的话该属性会被移除：
 
-```html
+``` html
 <button v-bind:disabled="someDynamicCondition">Button</button>
 ```
 
 #### 使用 JavaScript 表达式
 
-Vue.js 都提供了完全的 JavaScript 表达式支持：
+Vue.js 都提供了完全的 JavaScript 表达式支持
 
-```html
+``` html
 {{ number + 1 }}
 
 {{ ok ? 'YES' : 'NO' }}
@@ -155,7 +311,7 @@ Vue.js 都提供了完全的 JavaScript 表达式支持：
 ```
 
 这些表达式会在所属 Vue 实例的数据作用域下作为 JavaScript 被解析。
-有个限制就是，每个绑定都只能包含单个表达式，所以下面的例子都不会生效:
+有个限制就是，每个绑定都只能包含单个表达式，所以下面的例子都不会生效
 
 ```html
 <!-- 这是语句，不是表达式 -->
@@ -165,9 +321,22 @@ Vue.js 都提供了完全的 JavaScript 表达式支持：
 {{ if (ok) { return message } }}
 ```
 
+- 模板表达式都被放在沙盒中，只能访问全局变量的一个白名单，如 Math 和 Date
+- 不能在模板表达式中试图访问用户定义的全局变量
+
 ### 指令
 
-### Vue 内置指令
+- 指令（Directives）是带有 `v-` 前缀的特殊属性
+- 属性的值预期是 **单一 JavaScript 表达式** （除了 `v-for`)
+- 指令的职责就是当其表达式的值改变时相应地将某些行为应用到 DOM 上
+
+例如，`v-if` 指令将根据表达式 `seen` 的值的真假来插入/移除 `<p>` 元素
+
+``` html
+<p v-if="seen">Now you see me</p>
+```
+
+#### 内置指令
 
 - v-text
   + 和 {{}} 效果是一样
@@ -206,27 +375,18 @@ Vue.js 都提供了完全的 JavaScript 表达式支持：
 - v-once
   + 一次性绑定，后续数据的更新不会响应
 
-指令（Directives）是带有 `v-` 前缀的特殊属性。
-指令属性的值预期是单一 JavaScript 表达式（除了 `v-for`，之后再讨论）。指令的职责就是当其表达式的值改变时相应地将某些行为应用到 DOM 上。
-
-```html
-<p v-if="seen">Now you see me</p>
-```
-
-这里， v-if 指令将根据表达式 seen 的值的真假来移除/插入 <p> 元素。
-
 #### 参数
 
 一些指令能接受一个“参数”，在指令后以冒号指明。
-例如， v-bind 指令被用来响应地更新 HTML 属性：
+例如， `v-bind` 指令被用来响应地更新 HTML 属性：
 
-```html
+``` html
 <a v-bind:href="url"></a>
 ```
 
 在这里 `href` 是参数，告知 `v-bind` 指令将该元素的 `href` 属性与表达式 `url` 的值绑定。
 
-另一个例子是 v-on 指令，它用于监听 DOM 事件：
+另一个例子是 `v-on` 指令，它用于监听 DOM 事件：
 
 ```html
 <a v-on:click="doSomething">
@@ -236,31 +396,24 @@ Vue.js 都提供了完全的 JavaScript 表达式支持：
 
 #### 修饰符
 
-修饰符（Modifiers）是以半角句号 . 指明的特殊后缀，用于指出一个指令应该以特殊方式绑定。
-例如，.prevent 修饰符告诉 v-on 指令对于触发的事件调用 event.preventDefault()：
+修饰符（Modifiers）是以半角句号 `.` 指明的特殊后缀，用于指出一个指令应该以特殊方式绑定。
+例如， `.prevent` 修饰符告诉 `v-on` 指令对于触发的事件调用 `event.preventDefault()`
 
-```html
-<div>
-  <input type="text" v-on:keyup.enter="xxx">
-</div>
-```
-
-```html
+``` html
 <form v-on:submit.prevent="onSubmit"></form>
-<input type="text" v-on:keyup.enter="addTodo">
 ```
 
 ### 过滤器
 
-> 注意：Vue 2.x 中，过滤器只能在 mustache 绑定和 v-bind 表达式（从 2.1.0 开始支持）中使用，
-> 因为过滤器设计目的就是用于文本转换。为了在其他指令中实现更复杂的数据变换，你应该使用 **计算属性**。
-
 - Vue.js 允许你自定义过滤器，可被用作一些常见的文本格式化
-- 过滤器可以用在两个地方：`mustache 插值` 和 `v-bind 表达式`
+- 过滤器可以用在两个地方： **mustache 插值** 和 **`v-bind` 表达式**
+- 注意：Vue 2.x 中，过滤器只能在 **mustache 插值** 和 `v-bind` 表达式（从 2.1.0 开始支持）中使用
+- 因为过滤器设计目的就是用于文本转换。为了在其他指令中实现更复杂的数据变换，你应该使用 **计算属性**
 
-全局过滤器：
+定义全局过滤器
 
-```js
+``` javascript
+// 过滤器函数总接受表达式的值作为第一个参数
 Vue.filter('capitalize', function (value) {
   if (!value) return ''
   value = value.toString()
@@ -268,12 +421,13 @@ Vue.filter('capitalize', function (value) {
 })
 ```
 
-局部过滤器：
+定义局部过滤器
 
-```js
+``` javascript
 new Vue({
   // ...
   filters: {
+    // 过滤器函数总接受表达式的值作为第一个参数
     capitalize: function (value) {
       if (!value) return ''
       value = value.toString()
@@ -283,9 +437,9 @@ new Vue({
 })
 ```
 
-过滤器使用格式：
+使用过滤器
 
-```html
+``` html
 <!-- in mustaches -->
 {{ message | capitalize }}
 
@@ -293,23 +447,30 @@ new Vue({
 <div v-bind:id="rawId | formatId"></div>
 ```
 
-过滤器可以串联：
+过滤器可以串联
 
-```html
+``` html
 {{ message | filterA | filterB }}
 ```
 
-过滤器是 JavaScript 函数，因此可以接受参数：
+过滤器是 JavaScript 函数，因此可以接受参数
 
-```html
+``` html
 {{ message | filterA('arg1', arg2) }}
 ```
 
-这里，字符串 'arg1' 将传给过滤器作为第二个参数，arg2 表达式的值将被求值然后传给过滤器作为第三个参数。
+这里，字符串 `'arg1'` 将传给过滤器作为第二个参数，`arg2` 表达式的值将被求值然后传给过滤器作为第三个参数。
 
 ### 缩写
 
-#### v-bind 缩写
+Vue.js 为两个最为常用的指令提供了特别的缩写
+
+- v-bind
+  + 可以缩写为 `:`
+- v-on
+  + 可以缩写为 `@`
+
+#### `v-bind` 缩写
 
 ```html
 <!-- 完整语法 -->
@@ -318,7 +479,7 @@ new Vue({
 <a :href="url"></a>
 ```
 
-#### v-on 缩写
+#### `v-on` 缩写
 
 ```html
 <!-- 完整语法 -->
@@ -334,18 +495,30 @@ new Vue({
 模板内的表达式是非常便利的，但是它们实际上只用于简单的运算。
 在模板中放入太多的逻辑会让模板过重且难以维护。例如：
 
-```html
+``` html
 <div id="example">
   {{ message.split('').reverse().join('') }}
 </div>
 ```
 
 在这种情况下，模板不再简单和清晰。
-这就是对于任何复杂逻辑，你都应当使用计算属性的原因。
+在意识到这是反向显示 message 之前，你不得不再次确认第二遍。
+当你想要在模板中多次反向显示 message 的时候，问题会变得更糟糕。
 
-#### 基础例子：反转字符串
+这就是对于任何复杂逻辑，你都应当使用 **计算属性** 的原因。
 
-```js
+### 基础例子
+
+``` html
+<div id="example">
+  <!-- 结果：Hello -->
+  <p>Original message: "{{ message }}"</p>
+  <!-- 结果：olleH -->
+  <p>Computed reversed message: "{{ reversedMessage }}"</p>
+</div>
+```
+
+``` javascript
 var vm = new Vue({
   el: '#example',
   data: {
@@ -361,18 +534,226 @@ var vm = new Vue({
 })
 ```
 
-你可以像绑定普通属性一样在模板中绑定计算属性。 
+你可以像绑定普通属性一样在模板中绑定计算属性。
 Vue 知道 `vm.reversedMessage` 依赖于 `vm.message` ，
 因此当 `vm.message` 发生改变时，所有依赖于 `vm.reversedMessage` 的绑定也会被重新计算进行更新。
+
+### computed vs methods
+
+在下面的示例中，在表达式中调用 `reversedMessage2` 函数和在表达式中使用计算属性 `reversedMessage` 达到的
+效果是一样的：
+
+``` html
+<div id="app">
+  <p>{{ message }}</p>
+  <p>{{ reversedMessage }}</p>
+  <p>{{ reversedMessage }}</p>
+  <p>{{ reversedMessage }}</p>
+  <p>{{ reversedMessage2() }}</p>
+  <p>{{ reversedMessage2() }}</p>
+  <p>{{ reversedMessage2() }}</p>
+</div>
+<script>
+    new Vue({
+    el: '#app',
+    data: {
+      message: 'Hello'
+    },
+    computed: {
+      reversedMessage: function() {
+        console.log('computed')
+        return this.message.split('').reverse().join('')
+      }
+    },
+    methods: {
+      reversedMessage2: function() {
+        console.log('methods')
+        return this.message.split('').reverse().join('')
+      }
+    }
+  })
+</script>
+```
+
+对于最终的结果，两种方式确实是相同的。
+然而，不同的是计算属性是基于它们的依赖进行缓存的。
+计算属性只有在它的相关依赖发生改变时才会重新求值。
+这就意味着只要 `message` 还没有发生改变，多次访问 `reversedMessage` 计算属性会立即返回
+之前的计算结果，而不必再次执行函数。
+
+这也同样意味着下面的计算属性将不再更新，因为 `Date.now()` 不是响应式依赖：
+
+``` javascript
+computed: {
+  now: function () {
+    return Date.now()
+  }
+}
+```
+
+相比而言，只要发生重新渲染，method 调用 **总会** 执行该函数。
+
+那么我们为什么需要缓存？
+假设我们有一个性能开销比较大的的计算属性 A ，它需要遍历一个极大的数组和做大量的计算。
+然后我们可能有其他的计算属性依赖于 A 。
+如果没有缓存，我们将不可避免的多次执行 A 的 getter！如果你不希望有缓存，请用 method 替代。
+
+### computed vs watched
+
+Vue 确实提供了一种更通用的方式来观察和响应 Vue 实例上的数据变动：`watch` 属性。
+当你有一些数据需要随着其它数据变动而变动时，你很容易滥用 `watch`——特别是如果你之前使用过 AngularJS。
+然而，通常更好的想法是使用 `computed` 属性而不是命令式的 `watch` 回调。
+细想一下这个例子：
+
+``` html
+<div id="demo">{{ fullName }}</div>
+
+<script>
+  var vm = new Vue({
+    el: '#demo',
+    data: {
+      firstName: 'Foo',
+      lastName: 'Bar',
+      fullName: 'Foo Bar'
+    },
+    watch: {
+      firstName: function (val) {
+        this.fullName = val + ' ' + this.lastName
+      },
+      lastName: function (val) {
+        this.fullName = this.firstName + ' ' + val
+      }
+    }
+  })
+</script>
+```
+
+上面代码是命令式的和重复的。将它与 computed 属性的版本进行比较：
+
+``` javascript
+var vm = new Vue({
+  el: '#demo',
+  data: {
+    firstName: 'Foo',
+    lastName: 'Bar'
+  },
+  computed: {
+    fullName: function () {
+      return this.firstName + ' ' + this.lastName
+    }
+  }
+})
+```
+
+好得多了，不是吗？
+
+### computed setter
+
+计算属性默认只有 getter ，不过在需要时你也可以提供一个 setter ：
+
+``` javascript
+// ...
+computed: {
+  fullName: {
+    // getter
+    get: function () {
+      return this.firstName + ' ' + this.lastName
+    },
+    // setter
+    set: function (newValue) {
+      var names = newValue.split(' ')
+      this.firstName = names[0]
+      this.lastName = names[names.length - 1]
+    }
+  }
+}
+// ...
+```
+
+现在在运行 `vm.fullName = 'John Doe'` 时， setter 会被调用， `vm.firstName` 和 `vm.lastName` 也相应地会被更新。
+
+### Watchers
+
+虽然计算属性在大多数情况下更合适，但有时也需要一个自定义的 watcher 。
+这是为什么 Vue 提供一个更通用的方法通过 watch 选项，来响应数据的变化。
+当你想要在数据变化响应时，执行异步操作或开销较大的操作，这是很有用的。
+
+``` html
+<div id="watch-example">
+  <p>
+    Ask a yes/no question:
+    <input v-model="question">
+  </p>
+  <p>{{ answer }}</p>
+</div>
+
+<!-- Since there is already a rich ecosystem of ajax libraries    -->
+<!-- and collections of general-purpose utility methods, Vue core -->
+<!-- is able to remain small by not reinventing them. This also   -->
+<!-- gives you the freedom to just use what you're familiar with. -->
+<script src="https://unpkg.com/axios@0.12.0/dist/axios.min.js"></script>
+<script src="https://unpkg.com/lodash@4.13.1/lodash.min.js"></script>
+<script>
+var watchExampleVM = new Vue({
+  el: '#watch-example',
+  data: {
+    question: '',
+    answer: 'I cannot give you an answer until you ask a question!'
+  },
+  watch: {
+    // 如果 question 发生改变，这个函数就会运行
+    question: function (newQuestion) {
+      this.answer = 'Waiting for you to stop typing...'
+      this.getAnswer()
+    }
+  },
+  methods: {
+    // _.debounce 是一个通过 lodash 限制操作频率的函数。
+    // 在这个例子中，我们希望限制访问yesno.wtf/api的频率
+    // ajax请求直到用户输入完毕才会发出
+    // 学习更多关于 _.debounce function (and its cousin
+    // _.throttle), 参考: https://lodash.com/docs#debounce
+    getAnswer: _.debounce(
+      function () {
+        var vm = this
+        if (this.question.indexOf('?') === -1) {
+          vm.answer = 'Questions usually contain a question mark. ;-)'
+          return
+        }
+        vm.answer = 'Thinking...'
+        axios.get('https://yesno.wtf/api')
+          .then(function (response) {
+            vm.answer = _.capitalize(response.data.answer)
+          })
+          .catch(function (error) {
+            vm.answer = 'Error! Could not reach the API. ' + error
+          })
+      },
+      // 这是我们为用户停止输入等待的毫秒数
+      500
+    )
+  }
+})
+</script>
+```
+
+在这个示例中，使用 `watch` 选项允许我们执行异步操作（访问一个 API），
+限制我们执行该操作的频率，并在我们得到最终结果前，设置中间状态。这是计算属性无法做到的。
+
+除了 `watch` 选项之外，您还可以使用 `vm.$watch` API 命令。
 
 ---
 
 ## Class 与 Style 绑定
 
 在 `v-bind` 用于 `class` 和 `style` 时， Vue.js 专门增强了它。
-表达式的结果类型除了 **字符串** 之外，还可以是 **对象** 或 **数组** 。
+表达式的结果类型除了 **字符串** 之外，还可以是对象或数组。
 
 ### 绑定 HTML Class
+
+- 对象语法
+- 数组语法
+- 用在组件上
 
 #### 对象语法
 
@@ -421,6 +802,11 @@ data: {
 
 ### 绑定内联样式
 
+- 对象语法
+- 数组语法
+- 自动添加前缀
+- 多重值
+
 ```html
 <!-- CSS 属性名可以用驼峰式（camelCase）或名短横分隔命（kebab-case） -->
 <div v-bind:style="{ color: activeColor, 'font-size': fontSize + 'px' }"></div>
@@ -446,6 +832,15 @@ data: {
 ---
 
 ## 条件渲染
+
+- v-if
+- `<template>` 中的 `v-if` 条件组
+- v-else
+- v-else-if
+- 用 `key` 管理可复用元素
+- v-show
+- v-if vs v-show
+- v-if 与 v-for 一起使用
 
 ### v-if-else-elseif
 
@@ -492,6 +887,334 @@ data: {
 ---
 
 ## 列表渲染
+
+- v-for
+- key
+- 数组更新检测
+- 显示过滤/排序结果
+
+### v-for
+
+#### 基本用法
+
+``` html
+<ul id="example-1">
+  <li v-for="item in items">
+    {{ item.message }}
+  </li>
+</ul>
+
+<script>
+  var example1 = new Vue({
+    el: '#example-1',
+    data: {
+      items: [
+        {message: 'Foo' },
+        {message: 'Bar' }
+      ]
+    }
+  })
+</script>
+```
+
+在 v-for 块中，我们拥有对父作用域属性的完全访问权限。 
+v-for 还支持一个可选的第二个参数为当前项的索引。
+
+``` html
+<ul id="example-2">
+  <li v-for="(item, index) in items">
+    {{ parentMessage }} - {{ index }} - {{ item.message }}
+  </li>
+</ul>
+
+<script>
+  var example2 = new Vue({
+    el: '#example-2',
+    data: {
+      parentMessage: 'Parent',
+      items: [
+        { message: 'Foo' },
+        { message: 'Bar' }
+      ]
+    }
+  })
+</script>
+```
+
+你也可以用 of 替代 in 作为分隔符，因为它是最接近 JavaScript 迭代器的语法：
+
+``` html
+<div v-for="item of items"></div>
+```
+
+#### Template v-for
+
+如同 v-if 模板，你也可以用带有 v-for 的 <template> 标签来渲染多个元素块。例如：
+
+``` html
+<ul>
+  <template v-for="item in items">
+    <li>{{ item.msg }}</li>
+    <li class="divider"></li>
+  </template>
+</ul>
+```
+
+#### 对象迭代 v-for
+
+你也可以用 v-for 通过一个对象的属性来迭代：
+
+``` html
+<ul id="repeat-object" class="demo">
+  <li v-for="value in object">
+    {{ value }}
+  </li>
+</ul>
+
+<script>
+  new Vue({
+    el: '#repeat-object',
+    data: {
+      object: {
+        FirstName: 'John',
+        LastName: 'Doe',
+        Age: 30
+      }
+    }
+  })
+</script>
+```
+
+你也可以提供第二个的参数为键名：
+
+``` html
+<div v-for="(value, key) in object">
+  {{ key }} : {{ value }}
+</div>
+```
+
+第三个参数为索引：
+
+``` html
+<div v-for="(value, key, index) in object">
+  {{ index }}. {{ key }} : {{ value }}
+</div>
+```
+
+#### 整数迭代 v-for
+
+v-for 也可以取整数。在这种情况下，它将重复多次模板。
+
+``` html
+<div>
+  <span v-for="n in 10">{{ n }}</span>
+</div>
+```
+
+#### 组件和 v-for
+
+<p class="tip">
+  了解组件相关知识，查看 [组件](https://cn.vuejs.org/v2/guide/components.html) 。完全可以先跳过它，以后再回来查看。
+</p>
+
+在自定义组件里，你可以像任何普通元素一样用 v-for 。
+
+``` html
+<my-component v-for="item in items"></my-component>
+```
+
+然而他不能自动传递数据到组件里，因为组件有自己独立的作用域。
+为了传递迭代数据到组件里，我们要用 `props` ：
+
+``` html
+<my-component
+  v-for="(item, index) in items"
+  v-bind:item="item"
+  v-bind:index="index">
+</my-component>
+```
+
+不自动注入 item 到组件里的原因是，因为这使得组件会紧密耦合到 v-for 如何运作。
+在一些情况下，明确数据的来源可以使组件可重用。
+
+下面是一个简单的 todo list 完整的例子：
+
+``` html
+<div id="todo-list-example">
+  <input
+    v-model="newTodoText"
+    v-on:keyup.enter="addNewTodo"
+    placeholder="Add a todo"
+  >
+  <ul>
+    <li
+      is="todo-item"
+      v-for="(todo, index) in todos"
+      v-bind:title="todo"
+      v-on:remove="todos.splice(index, 1)"
+    ></li>
+  </ul>
+</div>
+
+<script>
+  Vue.component('todo-item', {
+    template: '\
+      <li>\
+        {{ title }}\
+        <button v-on:click="$emit(\'remove\')">X</button>\
+      </li>\
+    ',
+    props: ['title']
+  })
+  new Vue({
+    el: '#todo-list-example',
+    data: {
+      newTodoText: '',
+      todos: [
+        'Do the dishes',
+        'Take out the trash',
+        'Mow the lawn'
+      ]
+    },
+    methods: {
+      addNewTodo: function () {
+        this.todos.push(this.newTodoText)
+        this.newTodoText = ''
+      }
+    }
+  })
+</script>
+```
+
+#### v-for with v-if
+
+当它们处于同一节点， `v-for` 的优先级比 `v-if` 更高，这意味着 `v-if`将分别重复运行于每个 `v-if` 循环中。
+当你想为仅有的 一些 项渲染节点时，这种优先级的机制会十分有用，如下：
+
+``` html
+<li v-for="todo in todos" v-if="!todo.isComplete">
+  {{ todo }}
+</li>
+```
+
+上面的代码只传递了未complete的todos。
+
+而如果你的目的是有条件地跳过循环的执行，那么将 `v-if` 置于包装元素 (或 `<template>`)上。如:
+
+``` html
+<ul v-if="shouldRenderTodos">
+  <li v-for="todo in todos">
+    {{ todo }}
+  </li>
+</ul>
+```
+
+### key
+
+### 数组更新检测
+
+#### 变异方法
+
+Vue 包含一组观察数组的变异方法，所以它们也将会触发视图更新。这些方法如下：
+
+- `push()`
+- `pop()`
+- `shift()`
+- `unshift()`
+- `splice()`
+- `sort()`
+- `reverse()`
+
+你打开控制台，然后用前面例子的 `items` 数组调用变异方法：`example1.items.push({ message: 'Baz' })` 。
+
+#### 重塑数组
+
+变异方法(mutation method)，顾名思义，会改变被这些方法调用的原始数组。
+相比之下，也有非变异(non-mutating method)方法，
+例如： `filter()`, `concat()`, `slice()` 。
+这些不会改变原始数组，但总是返回一个新数组。当使用非变异方法时，可以用新数组替换旧数组：
+
+``` javascript
+example1.items = example1.items.filter(function (item) {
+  return item.message.match(/Foo/)
+})
+```
+
+你可能认为这将导致 Vue 丢弃现有 DOM 并重新渲染整个列表。
+幸运的是，事实并非如此。 
+Vue 实现了一些智能启发式方法来最大化 DOM 元素重用，所以用一个含有相同元素的数组去替换原来的数组是非常高效的操作。
+
+#### 注意事项
+
+由于 JavaScript 的限制， Vue 不能检测以下变动的数组：
+
+1. 当你利用索引直接设置一个项时，例如： `vm.items[indexOfItem] = newValue`
+2. 当你修改数组的长度时，例如： `vm.items.length = newLength`
+
+为了解决第一类问题，以下两种方式都可以实现和 `vm.items[indexOfItem] = newValue` 相同的效果， 同时也将触发状态更新：
+
+``` javascript
+// Vue.set
+Vue.set(example1.items, indexOfItem, newValue)
+
+// Array.prototype.splice`
+example1.items.splice(indexOfItem, 1, newValue)
+```
+
+为了解决第二类问题，你也同样可以使用 `splice`：
+
+``` javascript
+example1.items.splice(newLength)
+```
+
+### 显示过滤/排序结果
+
+有时，我们想要显示一个数组的过滤或排序副本，而不实际改变或重置原始数据。
+在这种情况下，可以创建返回过滤或排序数组的计算属性。
+
+例如：
+
+``` html
+<li v-for="n in evenNumbers">{{ n }}</li>
+
+<script>
+  new Vue({
+    // ...
+    data: {
+      numbers: [ 1, 2, 3, 4, 5 ]
+    },
+    computed: {
+      evenNumbers: function () {
+        return this.numbers.filter(function (number) {
+          return number % 2 === 0
+        })
+      }
+    }
+  })
+</script>
+```
+
+或者，你也可以在计算属性不适用的情况下 (例如，在嵌套 `v-for` 循环中) 使用 method 方法：
+
+``` html
+<li v-for="n in even(numbers)">{{ n }}</li>
+
+<script>
+  new Vue({
+    // ...
+    data: {
+      numbers: [ 1, 2, 3, 4, 5 ]
+    },
+    methods: {
+      even: function (numbers) {
+        return numbers.filter(function (number) {
+          return number % 2 === 0
+        })
+      }
+    }
+  })
+</script>
+```
 
 ---
 

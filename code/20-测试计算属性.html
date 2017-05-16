@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>vue - 计算属性</title>
+</head>
+
+<body>
+  <div id="app">
+		<p>{{ message }}</p>
+		<p>{{ reversedMessage }}</p>
+		<p>{{ reversedMessage }}</p>
+		<p>{{ reversedMessage }}</p>
+		<p>{{ reversedMessage2() }}</p>
+		<p>{{ reversedMessage2() }}</p>
+		<p>{{ reversedMessage2() }}</p>
+  </div>
+  <script src="../node_modules/vue/dist/vue.js"></script>
+  <script>
+  new Vue({
+  	el: '#app',
+  	data: {
+  		message: 'Hello'
+  	},
+    computed: {
+      reversedMessage: function() {
+      	console.log('computed')
+        return this.message.split('').reverse().join('')
+      }
+    },
+    methods: {
+    	reversedMessage2: function() {
+      	console.log('methods')
+        return this.message.split('').reverse().join('')
+      }
+    }
+  })
+  </script>
+</body>
+
+</html>
