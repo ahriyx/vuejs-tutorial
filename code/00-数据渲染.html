@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>数据渲染</title>
+</head>
+<body>
+  <!-- 
+    现在 id=app 的 div 就被 Vue 管理了
+    在该 div 内部就可以直接访问使用 Vue 实例 data 中的数据
+   -->
+  <div id="app">
+    <h1>hello {{ foo }}</h1>
+  </div>
+  <div>
+    <!-- 因为这里没有被 Vue 管理 -->
+    hello {{ foo }}
+  </div>
+  <script src="../node_modules/vue/dist/vue.js"></script>
+  <script>
+    // 1. 引包
+    // 2. 通过构造函数 Vue 实例化 Vue 应用程序
+    // 3. 通过 el 选项指定被 Vue 应用程序管理的入口
+    // 4. 通过 data 选项初始化 ViewModel 数据
+    //    data 就好比 ng 中的 $scope
+    new Vue({
+      el: '#app',
+      data: {
+        foo: 'bar'
+      }
+    })
+  </script>
+</body>
+</html>

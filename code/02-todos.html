@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>todos</title>
+  <style>
+    .completed {
+      text-decoration: line-through;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <h1>Todo</h1>
+    <div>
+      <input v-model="todoText" type="text">
+      <input
+        v-on:click="addTodo"
+        type="button" value="add">
+    </div>
+    <ul>
+      <li v-for="todo in todos">
+        <input type="checkbox" v-model="todo.completed">
+        <!-- 
+          v-bind:class = "{ completed: todo.completed }"
+          completed 表示样式类名
+          值是一个布尔值
+          当值是 true 的时候，该元素作用 completed 样式类
+          当值是 false 的时候，该元素去除 completed 样式类
+         -->
+        <label for="" v-bind:class="{ completed: todo.completed }">{{ todo.title }}</label>
+      </li>
+    </ul>
+    <p>2 of 2 remaining [ archive ]</p>
+  </div>
+  <script src="../node_modules/vue/dist/vue.js"></script>
+  <script>
+    const vm = new Vue({
+      el: '#app',
+      // 视图需要的静态数据必须初始化到 data 选项中
+      data: {
+        todoText: '',
+        todos: [
+          { id: 1, title: '吃饭', completed: false },
+          { id: 2, title: '睡觉', completed: false },
+          { id: 3, title: '打豆豆', completed: true },
+          { id: 4, title: '写代码', completed: false },
+          { id: 5, title: '约会', completed: true },
+        ]
+      },
+      // 视图需要abc的行为函数必须初始化到 methods 选项中
+      // 在行为函数中可以直接通过 this 来访问 data 中的数据成员
+      methods: {
+        addTodo: function () {
+          // 1. 获取文本框内容
+          const todoText = this.todoText ? this.todoText.trim() : ''
+          if (todoText.length === 0) {
+            return
+          }
+          // 2. 添加到 data 选项的 todos 数组中
+          this.todos.push({
+            id: 5,
+            title: todoText,
+            completed: false
+          })
+          // 3. 清空文本框
+          this.todoText = ''
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>

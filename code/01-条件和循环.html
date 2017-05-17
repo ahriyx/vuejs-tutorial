@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>条件和循环</title>
+</head>
+<body>
+  <!-- 
+    入口不能是 HTML 或者 body
+    普通元素即可
+   -->
+  <div id="app">
+    <div v-if="seen">
+      <p>{{ message }}</p>
+    </div>
+    <div>
+      <ul>
+        <li v-for="todo in todos">
+          {{ todo.title }}
+        </li>
+      </ul>
+    </div>
+  </div>
+  <script src="../node_modules/vue/dist/vue.js"></script>
+  <script>
+    const vm = new Vue({
+      el: '#app',
+      data: {
+        message: 'hello world',
+        seen: false,
+        todos: [
+          { title: '吃饭' },
+          { title: '睡觉' },
+          { title: '打豆豆' },
+        ]
+      }
+    })
+
+    // 可以直接通过 vm 访问 data 中的数据
+    // 例如这里修改 vm.seen = true 会导致视图也跟着更新
+    // 所以可以利用这个 vm 做一些数据驱动视图的测试
+    vm.seen = true
+  </script>
+</body>
+</html>

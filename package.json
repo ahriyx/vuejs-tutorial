@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "browser-sync start --server --directory --files \"code/*.html\""
+    "code": "browser-sync start --port 5090 --server --directory --files \"code/*.html\"",
+    "docute": "docute ./docs --watch --port 5080 --open"
   },
   "keywords": [],
   "author": "",

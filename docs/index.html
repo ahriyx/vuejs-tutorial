@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
+  <title>./docs</title>
+  <link rel="stylesheet" href="./assets/css/docute.css">
+  <style>
+  body {
+    counter-reset: h1
+  }
+
+  h1 {
+    counter-reset: h1
+  }
+
+  h2 {
+    counter-reset: h2
+  }
+
+  h3 {
+    counter-reset: h3
+  }
+
+  h2:before {
+    counter-increment: h1;
+    content: counter(h1) "."
+  }
+
+  h3:before {
+    counter-increment: h2;
+    content: counter(h1) "." counter(h2) ". "
+  }
+
+  h4:before {
+    counter-increment: h3;
+    content: counter(h1) "." counter(h2) "." counter(h3) ". "
+    /*content: counter(h1) "." counter(h2) "." counter(h3) "." counter(h4) ". "*/
+  }
+  </style>
+</head>
+
+<body>
+  <div id="app"></div>
+  <script src="./assets/js/docute.js"></script>
+  <script>
+  docute.init({
+    nav: [
+      // homepage
+      {
+        title: '首页',
+        path: '/'
+      }
+    ],
+    repo: 'lipengzhou/nodejs-tutorial',
+    'edit-link': 'https://github.com/lipengzhou/nodejs-tutorial/blob/master/docs/README.md',
+    marked: {
+
+    }
+  })
+  </script>
+</body>
+
+</html>
