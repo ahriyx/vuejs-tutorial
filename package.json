@@ -12,11 +12,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "bootstrap": "^3.3.7",
     "vue": "^2.3.3"
   },
   "devDependencies": {
     "browser-sync": "^2.18.8",
-    "docute": "^3.4.5"
+    "docute-cli": "^0.5.2"
   }
 }
