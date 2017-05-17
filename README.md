@@ -1,13 +1,14 @@
 # vuejs tutorial
 
-## 预览文档
+## Preview & Dev Setup
 
 ``` bash
+# install dependencies
+yarn install
+
+# documentation serve ./docs/README.md at localhost:5080
 npm run docute
-```
 
-## 预览开发环境
-
-``` bash
-npm run code
+# dev serve ./code/*.html at localhost:5090
+npm run dev
 ```
