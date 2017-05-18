@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>vue - 表单控件绑定</title>
+</head>
+
+<body>
+  <div id="app">
+    <div>
+      <input type="text" v-model.lazy="message">
+      <p>{{ typeof message }}</p>
+      <p>message length: {{ message.length }}</p>
+    </div>
+    <div>
+      <input type="number" v-model.number="num">
+      <p>{{ typeof num }}</p>
+    </div>
+    <div>
+      <input type="text" v-model.trim="message2">
+      <p>message2 length: {{ message2.length }}</p>
+    </div>
+  </div>
+  <script src="../node_modules/vue/dist/vue.js"></script>
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+        message: 'hello',
+        num: 123,
+        message2: 'world'
+      },
+      methods: {}
+    })
+  </script>
+</body>
+
+</html>
