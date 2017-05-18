@@ -29,9 +29,9 @@ Vue.js（读音 /vju:/, 类似于 view）是一套构建用户界面的渐进式
 ### 发展历史
 
 - Vue.js 由尤雨溪个人正式发布于 2014 年 2 月，并开源于 Github
-- 目前有 87 人参与贡献了 Vue.js 项目源代码 https://github.com/vuejs/vue/graphs/contributors 
-- 目前在 Github 上已收获了 47800 多 Start
-- 版本发布历程
+- 目前有 104 人参与贡献了 Vue.js 源代码 https://github.com/vuejs/vue/graphs/contributors
+- 目前在 Github 上已收获了 50000 多 Start
+- 主要版本发布历程（以下信息参考官方仓库 release 发布日志：https://github.com/vuejs/vue/releases）
   + 2013 年 12 月 8 日，发布0.6.0
   + 2013 年 12 月 24 日，发布 0.7.0
   + 2014 年 1 月 27日，发布 0.8.0
@@ -46,7 +46,8 @@ Vue.js（读音 /vju:/, 类似于 view）是一套构建用户界面的渐进式
   + 2016 年 8 月 1 日，正式发布 2.0
   + 2016 年 11 月 23 日，发布 2.1
   + 2017 年 2 月 26 日，发布 2.2
-  + 截止到目前，Vue 2.0 最新版本为 2017 年 3 月 13 如发布的 2.2.4
+  + 2017 年 4 月 27 日，发布 2.3
+  + 截止到目前，Vue 2.0 最新版本为 2017 年 5 月 10 如发布的 2.3.3
 
 ### 与其它框架对比
 
@@ -1726,10 +1727,6 @@ Vue.config.keyCodes.f1 = 112
 <p class="tip">
   自定义 input 类型：https://cn.vuejs.org/v2/guide/components.html#使用自定义事件的表单输入组件
 </p>
-
-#### `.number`
-
-#### `.trim`
 
 
 
